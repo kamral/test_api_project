@@ -5,6 +5,7 @@ from rest_framework.views import APIView
 from account.models import User
 from articles.models import Articles
 from rest_framework.response import Response
+from api.serializers import ArticleSerializers
 # Фреймворк REST предоставляет APIViewкласс,
 # который является подклассом класса Django View.
 #
@@ -29,8 +30,9 @@ from rest_framework.response import Response
 
 # Мы начнем с метода через которого можно просмотреть все статьи.
 class ArticlesApiview(APIView):
-    def get(self,request):
+    def get(self, request):
         articles=Articles.objects.all()
-        return Response({'articles':articles})
+        serializer=ArticleSerializers(articles,many=True)
+        return Response({'articles':serializer.data})
 
 

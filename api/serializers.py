@@ -7,4 +7,6 @@ class ArticleSerializers(serializers.ModelSerializer):
     description=serializers.CharField()
     body=serializers.CharField()
 
-
+    class Meta:
+        model=Articles
+        fields=('title','description','body')
