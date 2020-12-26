@@ -34,7 +34,6 @@ class ArticleSerializers(serializers.ModelSerializer):
         articles=Articles.objects.create(**validated_data)
         User.objects.create(
             articles=articles,
-            id=author_data['id'],
             email=author_data['email']
         )
 
