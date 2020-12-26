@@ -7,6 +7,7 @@ from articles.models import Articles
 from rest_framework.response import Response
 from api.serializers import ArticleSerializers
 from api.serializers import UserSerializer
+from rest_framework import status
 
 # Фреймворк REST предоставляет APIViewкласс,
 # который является подклассом класса Django View.
@@ -30,19 +31,38 @@ from api.serializers import UserSerializer
 # установлен ряд атрибутов, которые управляют различными аспектами политики API.
 
 
-# Мы начнем с метода через которого можно просмотреть все статьи.
-class ArticlesApiview(APIView):
-    def get(self, request):
-        articles=Articles.objects.all()
-        serializer=ArticleSerializers(articles,many=True)
-        return Response({'articles':serializer.data})
-
 
 class UserApiView(APIView):
     def get(self,request):
         users=User.objects.all()
         serializers=UserSerializer(users,many=True)
         return Response({"users":serializers.data})
+
+
+
+
+# Мы начнем с метода через которого можно просмотреть все статьи.
+class ArticlesApiview(APIView):
+    serializer_class = ArticleSerializers
+
+    def get(self,request):
+        articles=Articles.objects.all()
+        serializer=ArticleSerializers(articles,many=True)
+        return Response({'articles':serializer.data})
+
+    def post(self,request):
+        serializers=self.serializer_class(data=request.data)
+        serializers.is_valid(raise_exception=True)
+        serializers.save()
+        status_code = status.HTTP_201_CREATED
+        response = {
+            'success': 'True',
+            'status code': status_code,
+            'message': 'Пост упешно создан'
+        }
+
+        return Response(response, status=status_code)
+
 
 
 
