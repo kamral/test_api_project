@@ -44,6 +44,9 @@ INSTALLED_APPS = [
 ]
 
 AUTH_USER_MODEL='account.User'
+REST_AUTH_SERIALIZERS={
+    'USER_DETAILS_SERIALIZER':'users.serializers.UserSerializer'
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

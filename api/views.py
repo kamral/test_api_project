@@ -6,6 +6,8 @@ from account.models import User
 from articles.models import Articles
 from rest_framework.response import Response
 from api.serializers import ArticleSerializers
+from api.serializers import UserSerializer
+
 # Фреймворк REST предоставляет APIViewкласс,
 # который является подклассом класса Django View.
 #
@@ -34,5 +36,12 @@ class ArticlesApiview(APIView):
         articles=Articles.objects.all()
         serializer=ArticleSerializers(articles,many=True)
         return Response({'articles':serializer.data})
+
+
+class UserApiView(APIView):
+    def get(self,request):
+        users=User.objects.all()
+        serializers=UserSerializer(users,many=True)
+        return Response({"users":serializers.data})
 
 
