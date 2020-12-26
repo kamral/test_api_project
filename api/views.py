@@ -1,7 +1,6 @@
 from django.shortcuts import render
 
 # Create your views here.
-from rest_framework import serializers
 from rest_framework.views import APIView
 from account.models import User
 from articles.models import Articles
