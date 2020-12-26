@@ -11,18 +11,19 @@ class UserManager(BaseUserManager):
             email=self.normalize_email(email)
         )
         user.set_password(password)
-        user.save()
+        user.save(using=self._db)
         return user
 
 
 
     def create_superuser(self,email,password):
+
         if password is None:
             raise TypeError('Суперпользователь должен иметь пароль')
         user=self.create_user(email,password)
         user.is_superuser=True
         user.is_staff=True
-        user.asve()
+        user.save()
 
 
 
@@ -40,8 +41,13 @@ class User(AbstractBaseUser,PermissionsMixin):
     USERNAME_FIELD='email'
     REQUIRED_FIELDS = []
 
+
+    objects=UserManager()
+
+
     def __str__(self):
         return self.email
+
 
 
     class Meta:
